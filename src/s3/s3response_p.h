@@ -14,7 +14,7 @@
 #ifndef S3RESPONSE_P_H
 #define S3RESPONSE_P_H
 
-#include "awsabstractresponse_p.h"
+#include "core/awsabstractresponse_p.h"
 #include <QXmlStreamReader>
 
 QTAWS_BEGIN_NAMESPACE

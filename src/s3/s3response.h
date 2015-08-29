@@ -14,7 +14,7 @@
 #ifndef S3RESPONSE_H
 #define S3RESPONSE_H
 
-#include "awsabstractresponse.h"
+#include "core/awsabstractresponse.h"
 
 QTAWS_BEGIN_NAMESPACE
 

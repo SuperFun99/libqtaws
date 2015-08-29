@@ -130,7 +130,7 @@ QNetworkRequest S3ObjectRequest::unsignedRequest(const QUrl & endpoint) const
 
     // Add the object name to the request URL
     QUrl url = req.url();
-    url.setPath(url.path() + "/" + s3ObjectName());
+    url.setPath(url.path() + QLatin1String("/") + s3ObjectName());
     req.setUrl(url);
 
     return req;

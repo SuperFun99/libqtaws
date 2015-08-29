@@ -49,7 +49,7 @@ QString S3Response::errorString() const
 
     if (!errorCode().isEmpty())
     {
-        return QString("%1 - %2").arg(errorCode()).arg(message());
+        return QString::fromLatin1("%1 - %2").arg(errorCode()).arg(message());
     }
     else
     {
@@ -93,7 +93,7 @@ QNetworkReply::NetworkError S3Response::networkError() const
     Q_D(const AwsAbstractResponse);
 
     if ((!d->reply) ||
-        (d->reply->header(QNetworkRequest::ServerHeader) == "AmazonS3") ||
+        (d->reply->header(QNetworkRequest::ServerHeader) == QLatin1String("AmazonS3")) ||
         (d->reply->hasRawHeader("x-amz-request-id")))
     {
         return QNetworkReply::NoError;
@@ -114,7 +114,7 @@ void S3Response::parse(QNetworkReply * const reply)
     qDebug() <<  "========= Reply Headers ========\n";
     foreach (QByteArray header, headers)
     {
-        qDebug() << QString("%1: %2\n").arg(header.constData()).arg(reply->rawHeader(header).constData());
+        qDebug() << QString::fromLatin1("%1: %2\n").arg(QString::fromLatin1(header)).arg(QString::fromLatin1(reply->rawHeader(header)));
     }
 
     // Dump the reply body
@@ -144,7 +144,7 @@ void S3Response::parse(QNetworkReply * const reply)
 QString S3Response::errorCode() const
 {
     Q_D(const S3Response);
-    return d->xmlValues.value("Code").toString();
+    return d->xmlValues.value(QLatin1String("Code")).toString();
 }
 
 
@@ -154,7 +154,7 @@ QString S3Response::errorCode() const
 QString S3Response::message() const
 {
     Q_D(const S3Response);
-    return d->xmlValues.value("Message").toString();
+    return d->xmlValues.value(QLatin1String("Message")).toString();
 }
 
 

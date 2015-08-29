@@ -14,7 +14,7 @@
 #ifndef S3REQUEST_P_H
 #define S3REQUEST_P_H
 
-#include "awsabstractrequest_p.h"
+#include "core/awsabstractrequest_p.h"
 #include "s3request.h"
 
 QTAWS_BEGIN_NAMESPACE

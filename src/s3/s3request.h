@@ -14,7 +14,7 @@
 #ifndef S3REQUEST_H
 #define S3REQUEST_H
 
-#include "awsabstractrequest.h"
+#include "core/awsabstractrequest.h"
 #include <QFlags>
 #include <QObject>
 

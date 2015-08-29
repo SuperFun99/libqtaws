@@ -13,7 +13,6 @@
 
 #include "s3request.h"
 #include "s3request_p.h"
-
 //#include "s3error.h"  // To do - write this
 
 #include <QNetworkRequest>
@@ -186,7 +185,7 @@ QNetworkRequest S3Request::unsignedRequest(const QUrl & endpoint) const
     if (requestStyle() == VirtualHostedStyle)
     {
         // http://BUCKET-NAME.s3.amazonaws.com/OBJECT-NAME
-        url.setHost(bucketName() + "." + url.host());
+        url.setHost(bucketName() + QLatin1String(".") + url.host());
 
         if (bucketName() != bucketName().toLower())
             qWarning() << "Virtual hosted-style requests will fail when bucket name is not all lowercase (bucket = " << bucketName() << ")";
@@ -194,7 +193,7 @@ QNetworkRequest S3Request::unsignedRequest(const QUrl & endpoint) const
     else
     {
         // http://s3.amazonaws.com/BUCKET-NAME/OBJECT-NAME
-        url.setPath(url.path() + "/" + bucketName());
+        url.setPath(url.path() + QLatin1String("/") + bucketName());
     }
     return QNetworkRequest(url);
 }
@@ -234,7 +233,7 @@ S3RequestPrivate::S3RequestPrivate(const S3RequestPrivate & other, S3Request * c
 QString S3RequestPrivate::toString(const S3Request::Action & action)
 {
     #define ActionToString(action) \
-        case S3Request::action##Action: return QString(#action)
+        case S3Request::action##Action: return QLatin1String(#action)
 
     switch (action)
     {
@@ -244,7 +243,7 @@ QString S3RequestPrivate::toString(const S3Request::Action & action)
     }
 
     #undef ActionToString
-    return "";
+    return QLatin1String("");
 }
 
 

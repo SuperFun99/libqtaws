@@ -14,7 +14,7 @@
 
 #include "s3client.h"
 #include "s3client_p.h"
-#include "awssignaturev4.h"
+#include "core/awssignaturev4.h"
 
 #include "s3putobjectrequest.h"
 #include "s3putobjectresponse.h"

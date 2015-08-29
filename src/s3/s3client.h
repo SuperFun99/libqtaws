@@ -15,7 +15,7 @@
 #ifndef S3CLIENT_H
 #define S3CLIENT_H
 
-#include "awsabstractclient.h"
+#include "core/awsabstractclient.h"
 #include <QObject>
 
 class QNetworkReply;

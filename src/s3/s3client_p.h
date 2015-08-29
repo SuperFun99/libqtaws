@@ -14,7 +14,7 @@
 #ifndef S3CLIENT_P_H
 #define S3CLIENT_P_H
 
-#include "awsabstractclient_p.h"
+#include "core/awsabstractclient_p.h"
 
 class QNetworkAccessManager;
 
