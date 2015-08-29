@@ -74,14 +74,34 @@ QTAWS_BEGIN_NAMESPACE
 AwsEndpoint::AwsEndpoint(const QByteArray &hostName)
     : d_ptr(new AwsEndpointPrivate(this))
 {
+    // Amazon S3 allows virtual hosted-style names like: my-bucket.s3.amazonaws.com
+    // They can even have periods in them, like keyboards.com.s3.amzonaws.com.
+    // Keep removing parts of the host name until we get a hit or reach the end of the string.
     Q_D(AwsEndpoint);
+    int pos;
     d->hostName = QString::fromUtf8(hostName);
     QMutexLocker locker(&AwsEndpointPrivate::mutex);
-    if (AwsEndpointPrivate::hosts.contains(d->hostName)) {
-        if (!AwsEndpointPrivate::hosts[d->hostName].regionNames.empty()) {
-            d->regionName = AwsEndpointPrivate::hosts[d->hostName].regionNames.first();
+    do
+    {
+        pos = d->hostName.indexOf(QLatin1Char('.'));
+        if (AwsEndpointPrivate::hosts.contains(d->hostName)) {
+            if (!AwsEndpointPrivate::hosts[d->hostName].regionNames.empty()) {
+                d->regionName = AwsEndpointPrivate::hosts[d->hostName].regionNames.first();
+            }
+            d->serviceName = AwsEndpointPrivate::hosts[d->hostName].serviceName;
+            pos = -1;
         }
-        d->serviceName = AwsEndpointPrivate::hosts[d->hostName].serviceName;
+        else
+        {
+            d->hostName = d->hostName.mid(pos + 1);
+        }
+    }
+    while (pos >= 0);
+
+    if (pos < 0)
+    {
+        // No hit on any part of host name
+        d->hostName = QString::fromUtf8(hostName);
     }
 }
 
@@ -94,13 +114,30 @@ AwsEndpoint::AwsEndpoint(const QString &hostName)
     : d_ptr(new AwsEndpointPrivate(this))
 {
     Q_D(AwsEndpoint);
+    int pos;
     d->hostName = hostName;
     QMutexLocker locker(&AwsEndpointPrivate::mutex);
-    if (AwsEndpointPrivate::hosts.contains(d->hostName)) {
-        if (!AwsEndpointPrivate::hosts[d->hostName].regionNames.empty()) {
-            d->regionName = AwsEndpointPrivate::hosts[d->hostName].regionNames.first();
+    do
+    {
+        pos = d->hostName.indexOf(QLatin1Char('.'));
+        if (AwsEndpointPrivate::hosts.contains(d->hostName)) {
+            if (!AwsEndpointPrivate::hosts[d->hostName].regionNames.empty()) {
+                d->regionName = AwsEndpointPrivate::hosts[d->hostName].regionNames.first();
+            }
+            d->serviceName = AwsEndpointPrivate::hosts[d->hostName].serviceName;
+            pos = -1;
         }
-        d->serviceName = AwsEndpointPrivate::hosts[d->hostName].serviceName;
+        else
+        {
+            d->hostName = d->hostName.mid(pos + 1);
+        }
+    }
+    while (pos >= 0);
+
+    if (pos < 0)
+    {
+        // No hit on any part of host name
+        d->hostName = hostName;
     }
 }
 
