@@ -25,3 +25,4 @@ RCC_DIR = $$DESTDIR/$$TARGET-tmp
 include(core/core.pri)
 include(sns/sns.pri)
 include(sqs/sqs.pri)
+include(s3/s3.pri)
