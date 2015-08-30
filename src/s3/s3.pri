@@ -14,7 +14,9 @@ HEADERS += \
         s3client_p.h \
         s3client.h \
         s3cannedacl_p.h \
-        s3cannedacl.h
+        s3cannedacl.h \
+        s3error.h \
+        s3error_p.h
 
 SOURCES += \
         s3storageclass.cpp \
@@ -24,6 +26,7 @@ SOURCES += \
         s3putobjectrequest.cpp \
         s3objectrequest.cpp \
         s3client.cpp \
-        s3cannedacl.cpp
+        s3cannedacl.cpp \
+        s3error.cpp
 
 VPATH += $$PWD

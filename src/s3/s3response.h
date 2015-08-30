@@ -22,6 +22,7 @@
 #define S3RESPONSE_H
 
 #include "core/awsabstractresponse.h"
+#include "s3error.h"
 
 QTAWS_BEGIN_NAMESPACE
 
@@ -37,12 +38,11 @@ public:
     virtual QString errorString() const;
     virtual bool hasError() const;
     virtual bool isValid() const;
-    virtual QNetworkReply::NetworkError networkError() const;
 
-    QString errorCode() const;
-    QString message() const;
     QString requestId() const;
     QString amzId2() const;
+
+    S3ErrorList serviceErrors() const;
 
     QNetworkReply * networkReply() const;
 

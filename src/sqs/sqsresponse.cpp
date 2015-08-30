@@ -108,7 +108,7 @@ QString SqsResponse::requestId() const
 /**
  * @brief  Get list of SQS errors, if any, included in the SQS response.
  *
- * @return A (possinly empty) list of SQS errors found in the SQS reponse.
+ * @return A (possibly empty) list of SQS errors found in the SQS response.
  *
  * @see errorString
  */
