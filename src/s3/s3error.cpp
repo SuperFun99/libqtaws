@@ -220,7 +220,7 @@ bool S3Error::operator==(const S3Error & other) const
  * @param  q  Pointer to this object's public S3Error instance.
  */
 S3ErrorPrivate::S3ErrorPrivate(S3Error * const q)
-    : code(S3Error::OtherError), q_ptr(q)
+    : code(S3Error::NoError), q_ptr(q)
 {
 
 }
@@ -237,8 +237,11 @@ S3ErrorPrivate::S3ErrorPrivate(S3Error * const q)
  * @param  q      Pointer to this object's public S3Error instance.
  */
 S3ErrorPrivate::S3ErrorPrivate(const S3ErrorPrivate * const other, S3Error * const q)
-    : code(other->code), detail(other->detail), message(other->message),
-      rawCode(other->rawCode), q_ptr(q)
+    : code(other->code)
+    , detail(other->detail)
+    , message(other->message)
+    , rawCode(other->rawCode)
+    , q_ptr(q)
 {
 
 }

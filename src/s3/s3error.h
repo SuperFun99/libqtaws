@@ -37,6 +37,7 @@ class QTAWS_EXPORT S3Error {
 public:
     /// S3 error codes.
     enum ErrorCode {
+        NoError = 0,                                ///< No error has occurred
         AccessDenied,                               ///< Access Denied
         AccountProblem,                             ///< There is a problem with your AWS account that prevents the operation from completing successfully. Please use Contact Us.
         AmbiguousGrantByEmailAddress,               ///< The email address you provided is associated with more than one account.
@@ -124,7 +125,7 @@ public:
     /// @cond internal
     S3Error();
     S3Error(const S3Error & other);
-    S3Error &operator=(const S3Error & other);
+    S3Error & operator=(const S3Error & other);
     /// @endcond
 
     virtual ~S3Error();

@@ -42,7 +42,7 @@ public:
     QString requestId() const;
     QString amzId2() const;
 
-    S3ErrorList serviceErrors() const;
+    S3Error serviceError() const;
 
     QNetworkReply * networkReply() const;
 

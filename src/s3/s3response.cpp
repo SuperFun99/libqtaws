@@ -74,13 +74,9 @@ S3Response::S3Response(S3ResponsePrivate * const d, QObject * const parent)
 /**
  * @brief Get this response's error string.
  *
- * This override checks for S3 service errors, and if found, returns the first
- * one.  Otherwise, this override delegates to the base implementation (which
+ * This override checks for S3 service errors, and if found, returns it.
+ * Otherwise, this override delegates to the base implementation (which
  * checks for network and XML parse errors, for example).
- *
- * Also consider using the serviceErrors function to retrieve all of the server
- * errors (if any), not just the first one (though often S3 will only return
- * one error per response).
  *
  * @return  An error string, or a null QString if this response has no errors.
  *
@@ -91,7 +87,7 @@ S3Response::S3Response(S3ResponsePrivate * const d, QObject * const parent)
 QString S3Response::errorString() const
 {
     Q_D(const S3Response);
-    return (d->errors.empty()) ? AwsAbstractResponse::errorString() : d->errors.first().message();
+    return (d->error.code() == S3Error::NoError) ? AwsAbstractResponse::errorString() : d->error.message();
 }
 
 
@@ -101,7 +97,7 @@ QString S3Response::errorString() const
 bool S3Response::hasError() const
 {
     Q_D(const S3Response);
-    return ((!d->errors.isEmpty()) || (AwsAbstractResponse::hasError()));
+    return ((d->error.code() != S3Error::NoError) || (AwsAbstractResponse::hasError()));
 }
 
 
@@ -111,7 +107,7 @@ bool S3Response::hasError() const
 bool S3Response::isValid() const
 {
     Q_D(const S3Response);
-    return ((d->errors.isEmpty()) && (AwsAbstractResponse::isValid()));
+    return ((d->error.code() == S3Error::NoError) && (AwsAbstractResponse::isValid()));
 }
 
 
@@ -149,16 +145,16 @@ QString S3Response::amzId2() const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * @brief  Get list of S3 errors, if any, included in the S3 response.
+ * @brief  Get the S3 error, if any, included in the S3 response.
  *
- * @return A (possibly empty) list of S3 errors found in the S3 response.
+ * @return An S3Error object possibly indicating \a NoError.
  *
  * @see errorString
  */
-S3ErrorList S3Response::serviceErrors() const
+S3Error S3Response::serviceError() const
 {
     Q_D(const S3Response);
-    return d->errors;
+    return d->error;
 }
 
 
@@ -238,7 +234,7 @@ void S3Response::parseFailure(QIODevice & response)
     {
         if (xml.name() == QLatin1String("Error"))
         {
-            d->parseError(xml);
+            d->error = S3Error(xml);
         }
         else
         {
@@ -267,27 +263,6 @@ S3ResponsePrivate::S3ResponsePrivate(S3Response * const q)
     : AwsAbstractResponsePrivate(q)
 {
 
-}
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// <?xml version="1.0" encoding="UTF-8"?>
-/// <Error>
-///   <Code>NoSuchKey</Code>
-///   <Message>The resource you requested does not exist</Message>
-///   <Resource>/mybucket/myfoto.jpg</Resource>
-///   <RequestId>4442587FB7D0A2F9</RequestId>
-/// </Error>
-///
-void S3ResponsePrivate::parseError(QXmlStreamReader & xml)
-{
-    Q_ASSERT(xml.name() == QLatin1String("Error"));
-    while (xml.readNextStartElement())
-    {
-        errors.append(S3Error(xml));
-    }
 }
 
 
