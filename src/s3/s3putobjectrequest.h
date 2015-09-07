@@ -45,6 +45,8 @@ public:
     bool isValidStorageClass() const;
     static bool isValidStorageClass(const S3StorageClass & storageClass);
 
+    virtual bool isValid() const;
+
 protected:
     virtual QNetworkRequest unsignedRequest(const QUrl & endpoint) const;
     virtual AwsAbstractResponse * response(QNetworkReply * const reply) const;

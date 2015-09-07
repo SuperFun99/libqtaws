@@ -30,6 +30,9 @@ class S3PutObjectResponse;
 class QTAWS_EXPORT S3PutObjectResponsePrivate : public S3ResponsePrivate
 {
 public:
+    QString eTag;       ///< The entity tag is a hash of the object.
+    QString version;    ///< The version of the object.
+
     S3PutObjectResponsePrivate(S3PutObjectResponse * const q);
 
 private:

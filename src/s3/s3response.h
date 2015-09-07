@@ -44,8 +44,6 @@ public:
 
     S3Error serviceError() const;
 
-    QNetworkReply * networkReply() const;
-
 protected:
     /// @cond internal
     S3Response(S3ResponsePrivate * const d, QObject * const parent);

@@ -214,6 +214,18 @@ QString AwsAbstractResponse::xmlParseErrorString() const
 }
 
 /**
+ * @brief  Get a pointer to the underlying QNetworkReply object.
+ *
+ * @return A pointer to the underlying QNetworkReply object, if there is one,
+ *         otherwise NULL.
+ */
+QNetworkReply *AwsAbstractResponse::reply() const
+{
+    Q_D(const AwsAbstractResponse);
+    return d->reply;
+}
+
+/**
  * @fn     const AwsAbstractRequest * AwsAbstractResponse::request() const
  *
  * @brief  Get this response's originating AWS request.

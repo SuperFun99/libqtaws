@@ -37,6 +37,9 @@ public:
 
     virtual const S3PutObjectRequest * request() const;
 
+    QString eTag() const;
+    QString version() const;
+
 protected slots:
     virtual void parseSuccess(QIODevice & response);
 

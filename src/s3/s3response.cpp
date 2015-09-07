@@ -179,27 +179,18 @@ void S3Response::parse(QNetworkReply * const reply)
 
 
 
-    // Extract common response values from headers
+    // Extract common S3 response values from headers
     Q_D(S3Response);
     d->amzId2    = QString::fromLatin1(reply->rawHeader("x-amz-id-2"));
     d->requestId = QString::fromLatin1(reply->rawHeader("x-amz-request-id"));
-
 
     // Parse the body
     if (isSuccess(reply))
         parseSuccess(*reply);
     else
         parseFailure(*reply);
-}
 
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-QNetworkReply * S3Response::networkReply() const
-{
-    Q_D(const S3Response);
-    return d->reply;
+    emit finished();
 }
 
 
